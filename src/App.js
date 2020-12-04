@@ -1,23 +1,25 @@
-import logo from './logo.svg';
+import React, {useEffect} from 'react';
 import './App.css';
+import Search from './components/Search';
+import api from './services/Api';
 
 function App() {
+
+  useEffect(() => {
+    api.get('weather?q=bocaiuva&appid=d8c538a2c8a967c6a326d806e56b5680')
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      
+      <Search />
+      
     </div>
   );
 }
