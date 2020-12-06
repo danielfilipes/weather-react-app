@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function Search() {
+function Search({findWeather}) {
 
     const [inputCity, setInputCity] = useState('');
 
@@ -9,7 +9,7 @@ function Search() {
     }
 
     const handlerSearchClick = () => {
-
+        findWeather(inputCity);
     }
 
     return (
