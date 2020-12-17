@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
-import Search from './components/Search';
 import Header from './components/Header';
+import Weather from './components/Weather';
 import api from './services/Api';
 
 function App() {
@@ -42,6 +42,7 @@ function App() {
   }
 
   let getApi = async (parameter) => {
+    setWeather(null);
     try{
       let response = await api.get('', parameter);
       setWeather(response.data);
@@ -53,57 +54,12 @@ function App() {
     }
   }
 
-  if(location === false){
-    return(
-      <div>
-        <p>É preciso permitir a localizacão para continuar ... <br /> Por favor permita a localizacão e atualize a página </p>
-      </div>
-    );
-  }
-  else if(weather === null){
-    return(
-      <div>
-        <h1>Weather App</h1>
-        <Search findWeather = {getWeatherCityName} />
-        <hr />
-        <p>Carregando o clima ...</p>
-      </div>
-    );
-  }
-  else if(weather === false){
-    return(
-      <div>
-        <h1>Weather App</h1>
-        <Search findWeather = {getWeatherCityName} />
-        <hr />
-        <p>Falha ao carregar o clima.</p>
-        <button onClick = {
-          () => {
-              window.location.reload();
-            }}>
-              Recarregar
-        </button>
-      </div>
-    );
-  }
-  else{
-    return(
-      <div>
-        <h1>Weather App</h1>
-        <Search findWeather = {getWeatherCityName} />
-        <h2>Este é o clima em {weather.name !== '' ? weather.name : 'Latitude: ' + weather.coord.lon + ' | Longitude: ' + weather.coord.lat}</h2>
-        <hr />
-        <h3>{weather.weather[0].description}</h3>
-        <ul>
-          <li>Temperatura atual: {weather.main.temp}°C</li>  
-          <li>Temperatura máxima: {weather.main.temp_max}°C</li>
-          <li>Temperatura mínima: {weather.main.temp_min}°C</li>
-          <li>Umidade: {weather.main.humidity}%</li>
-          <li>Sensacao térmica: {weather.main.feels_like}°C</li>  
-        </ul>
-      </div>
-    );
-  }
+  return(
+    <div>
+      <Header findWeather = {getWeatherCityName} weather = {weather} />
+      <Weather weather = {weather} location = {location} />
+    </div>
+  )
 }
 
 export default App;
